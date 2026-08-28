@@ -1,0 +1,24 @@
+{
+  "project": {
+    "name": "Saarthi",
+    "codename": "ai-harness",
+    "version": "1.0.0",
+    "tagline": "Sovereign On-Premise Agentic AI Workbench",
+    "description": "100% self-hosted, air-gapped, sandboxed agentic workbench for confidential industrial and government environments.",
+    "theme": "Industrial Technical Workbench",
+    "problemStatement": "SIH 2026 · PS 26117",
+    "organization": "MRPL (Mangalore Refinery and Petrochemicals Limited)"
+  },
+  "branding": {
+    "logoText": "Saarthi",
+    "badgeText": "AIR-GAPPED SOVEREIGN",
+    "footerText": "Saarthi Sovereign Intelligence Runtime · 100% Local Inference"
+  },
+  "sovereignty": {
+    "statusAirGapped": "AIR-GAPPED",
+    "statusOnline": "UNRESTRICTED",
+    "statusDegraded": "FIREWALL ACTIVE",
+    "internetBlockedLabel": "BLOCKED",
+    "internetAllowedLabel": "ACTIVE"
+  }
+}

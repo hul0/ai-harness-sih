@@ -1,0 +1,81 @@
+{
+  "project": {
+    "name": "Saarthi",
+    "codename": "ai-harness",
+    "version": "1.0.0",
+    "tagline": "Private & Secure On-Premise AI Assistant",
+    "description": "A 100% private, offline AI assistant designed for confidential government and industrial workplace tasks. No data ever leaves your computer.",
+    "theme": "Clear & Accessible Professional Workspace",
+    "problemStatement": "SIH 2026 · PS 26117",
+    "organization": "MRPL (Mangalore Refinery and Petrochemicals Limited)"
+  },
+  "branding": {
+    "logoText": "Saarthi",
+    "badgeText": "100% OFFLINE & PRIVATE",
+    "footerText": "Saarthi Private AI Assistant · All calculations and data remain on this device"
+  },
+  "navigation": {
+    "items": [
+      {
+        "id": "workbench",
+        "label": "Workspace",
+        "description": "Chat with your AI assistant and review tasks"
+      },
+      {
+        "id": "documents",
+        "label": "Documents & Reports",
+        "description": "Your uploaded files and generated reports"
+      },
+      {
+        "id": "knowledge",
+        "label": "Company Guidelines",
+        "description": "Official rules, SOPs, and engineering manuals"
+      },
+      {
+        "id": "pid_viewer",
+        "label": "Diagrams & Drawings",
+        "description": "View and explore technical plant diagrams"
+      },
+      {
+        "id": "models",
+        "label": "AI Assistant Settings",
+        "description": "View which local AI model is helping you"
+      },
+      {
+        "id": "audit",
+        "label": "Activity & Security Log",
+        "description": "Clear record of all actions taken by the assistant"
+      }
+    ]
+  },
+  "sovereignty": {
+    "statusAirGapped": "100% OFFLINE & SECURE",
+    "statusOnline": "CONNECTED",
+    "statusDegraded": "PROTECTED",
+    "internetBlockedLabel": "BLOCKED",
+    "internetAllowedLabel": "ALLOWED",
+    "labels": {
+      "airGappedStatus": "Privacy Status",
+      "internetAccess": "Internet Connection",
+      "externalApiCalls": "External Cloud Calls",
+      "externalDnsQueries": "Outside Requests",
+      "externalConnections": "External Connections",
+      "localRequests": "Completed Local Tasks"
+    }
+  },
+  "approvalGate": {
+    "title": "Your Approval is Required",
+    "subtitle": "The AI has analyzed your document and prepared a recommendation. Please review and approve before finalizing.",
+    "buttons": {
+      "approve": "Approve & Create Official Documents",
+      "modify": "Ask AI to Re-check / Adjust",
+      "reject": "Decline Recommendation"
+    }
+  },
+  "contextTabs": {
+    "files": "Original Files",
+    "sources": "Official Guidelines",
+    "artifacts": "Ready Documents",
+    "pid": "Plant Diagram"
+  }
+}
