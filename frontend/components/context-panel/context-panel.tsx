@@ -1,6 +1,7 @@
 "use client"
 
 import React from "react"
+import Link from "next/link"
 import {
   FileText,
   BookOpen,
@@ -199,7 +200,21 @@ export function ContextPanel() {
         </TabsContent>
 
         {/* Tab 3: Interactive P&ID Graph Viewer */}
-        <TabsContent value="pid" className="flex-1 p-3.5 m-0 overflow-y-auto">
+        <TabsContent value="pid" className="flex-1 p-3.5 m-0 overflow-y-auto space-y-2.5">
+          <div className="flex items-center justify-between">
+            <span className="text-xs font-semibold text-foreground flex items-center gap-1.5">
+              <Map className="size-3.5 text-muted-foreground" />
+              <span>Plant P&amp;ID Schematic</span>
+            </span>
+
+            <Link href="/pid-viewer">
+              <Button variant="ghost" size="sm" className="h-7 px-2 text-[11px] font-medium text-emerald-500 hover:text-emerald-400 hover:bg-emerald-500/10 gap-1 rounded-md">
+                <span>Open Studio</span>
+                <Maximize2 className="size-3" />
+              </Button>
+            </Link>
+          </div>
+
           <PIDGraphViewer graphData={activeTask.pidGraph} isFullScreen={isExpandedView} />
         </TabsContent>
 

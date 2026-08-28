@@ -81,9 +81,40 @@ const demoScenarios = [
 export function AppSidebar() {
   const pathname = usePathname()
   const { scenarioKey, setScenario } = useWorkbench()
+  const [sidebarWidth, setSidebarWidth] = React.useState<number>(256)
+  const [isResizing, setIsResizing] = React.useState<boolean>(false)
+
+  const startResizing = React.useCallback((mouseDownEvent: React.MouseEvent) => {
+    mouseDownEvent.preventDefault()
+    setIsResizing(true)
+
+    const startX = mouseDownEvent.clientX
+    const startWidth = sidebarWidth
+
+    const onMouseMove = (mouseMoveEvent: MouseEvent) => {
+      const delta = mouseMoveEvent.clientX - startX
+      const newWidth = Math.min(Math.max(200, startWidth + delta), 460)
+      setSidebarWidth(newWidth)
+    }
+
+    const onMouseUp = () => {
+      setIsResizing(false)
+      window.removeEventListener("mousemove", onMouseMove)
+      window.removeEventListener("mouseup", onMouseUp)
+    }
+
+    window.addEventListener("mousemove", onMouseMove)
+    window.addEventListener("mouseup", onMouseUp)
+  }, [sidebarWidth])
 
   return (
-    <aside className="flex h-full w-64 flex-col border-r border-border bg-sidebar shrink-0 text-sidebar-foreground select-none">
+    <aside
+      style={{ width: `${sidebarWidth}px` }}
+      className={cn(
+        "relative flex h-full flex-col border-r border-border bg-sidebar shrink-0 text-sidebar-foreground select-none transition-[width] duration-75",
+        isResizing && "transition-none select-none"
+      )}
+    >
       {/* Top Action: New Chat / Task */}
       <div className="p-3 border-b border-border/60">
         <Button
@@ -168,6 +199,17 @@ export function AppSidebar() {
           </span>
         </div>
       </div>
+
+      {/* Resize Drag Handle */}
+      <div
+        onMouseDown={startResizing}
+        onDoubleClick={() => setSidebarWidth(256)}
+        title="Drag to resize sidebar (double click to reset)"
+        className={cn(
+          "absolute right-0 top-0 bottom-0 w-1.5 cursor-col-resize hover:bg-emerald-500/50 transition-colors z-50",
+          isResizing && "bg-emerald-500 w-1.5"
+        )}
+      />
     </aside>
   )
 }

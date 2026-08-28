@@ -65,12 +65,13 @@ export interface ArtifactDeliverable {
 export interface PIDNode {
   id: string
   tag: string           // e.g. "FCV-101"
-  symbolType: 'control_valve' | 'centrifugal_pump' | 'distillation_column' | 'heat_exchanger' | 'pressure_transmitter' | 'storage_tank' | 'check_valve'
+  symbolType: 'control_valve' | 'centrifugal_pump' | 'distillation_column' | 'heat_exchanger' | 'pressure_transmitter' | 'storage_tank' | 'check_valve' | 'reactor' | 'knockout_drum' | 'compressor' | 'furnace' | 'accumulator' | 'instrument' | 'vessel' | string
   label: string
   bbox: [number, number, number, number] // [x, y, width, height] in percentage 0-100
   confidence: number
   lineAssociation?: string
   status?: 'nominal' | 'alert' | 'unverified'
+  description?: string
 }
 
 export interface PIDEdge {
@@ -87,6 +88,8 @@ export interface PIDGraph {
   drawingId: string
   drawingTitle: string
   standard: string      // e.g. "ISA-5.1"
+  category?: string
+  description?: string
   nodes: PIDNode[]
   edges: PIDEdge[]
   overlayImageUrl: string
