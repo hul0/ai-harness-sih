@@ -5,7 +5,6 @@ import {
   Map,
   MapPin,
   Sparkles,
-  Info,
 } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
@@ -27,59 +26,59 @@ export function PIDGraphViewer({ graphData }: PIDGraphViewerProps) {
   const activeNode = selectedNode || hoveredNode
 
   return (
-    <div className="flex flex-col h-full gap-4 overflow-hidden">
+    <div className="flex flex-col h-full gap-3 overflow-hidden text-xs">
       {/* Header Info */}
-      <div className="flex items-center justify-between px-1">
+      <div className="flex items-center justify-between px-0.5">
         <div>
-          <h4 className="text-sm font-bold text-foreground flex items-center gap-2">
-            <Map className="size-4 text-primary" />
+          <h4 className="text-xs font-semibold text-foreground flex items-center gap-1.5">
+            <Map className="size-3.5 text-muted-foreground" />
             <span>{graph.drawingTitle}</span>
           </h4>
-          <p className="text-xs text-muted-foreground mt-0.5">
-            Drawing Reference: {graph.drawingId}
+          <p className="text-[11px] text-muted-foreground">
+            Ref: {graph.drawingId}
           </p>
         </div>
-        <Badge variant="outline" className="text-xs font-semibold border-primary/30 text-primary">
-          {graph.nodes.length} Components Identified
-        </Badge>
+        <span className="text-[11px] text-muted-foreground">
+          {graph.nodes.length} Components
+        </span>
       </div>
 
       {/* Interactive Diagram Canvas */}
-      <div className="relative w-full aspect-[4/3] max-h-[320px] rounded-2xl border border-border bg-slate-950 overflow-hidden shadow-inner flex items-center justify-center">
+      <div className="relative w-full aspect-[4/3] max-h-[300px] rounded-xl border border-border/80 bg-neutral-950 overflow-hidden shadow-inner flex items-center justify-center">
         {/* Subtle grid background */}
-        <div className="absolute inset-0 bg-[radial-gradient(#334155_1px,transparent_1px)] [background-size:20px_20px] opacity-60" />
+        <div className="absolute inset-0 bg-[radial-gradient(#262626_1px,transparent_1px)] [background-size:16px_16px] opacity-70" />
 
         {/* Process Pipelines SVG */}
         <svg className="absolute inset-0 w-full h-full pointer-events-none">
           <defs>
             <marker id="arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-              <path d="M 0 0 L 10 5 L 0 10 z" fill="oklch(0.511 0.096 186.391)" />
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981" />
             </marker>
           </defs>
-          {/* Main Process Line: V-102 -> P-101A -> FCV-101 -> C-101 */}
+          {/* Main Process Line */}
           <path
             d="M 15% 56% L 33% 56% L 49% 56% L 77% 50%"
             fill="none"
-            stroke="oklch(0.511 0.096 186.391)"
-            strokeWidth="3.5"
-            strokeDasharray="5 3"
+            stroke="#10b981"
+            strokeWidth="2.5"
+            strokeDasharray="4 2"
             markerEnd="url(#arrow)"
           />
           {/* Reflux loop */}
           <path
             d="M 77% 25% L 92% 25% L 92% 73% L 80% 84% L 77% 84%"
             fill="none"
-            stroke="oklch(0.7 0.15 145)"
-            strokeWidth="3"
+            stroke="#737373"
+            strokeWidth="2"
             markerEnd="url(#arrow)"
           />
           {/* Pressure Instrument signal */}
           <path
             d="M 33% 56% L 42% 36%"
             fill="none"
-            stroke="oklch(0.75 0.15 75)"
-            strokeWidth="2"
-            strokeDasharray="4 4"
+            stroke="#f59e0b"
+            strokeWidth="1.5"
+            strokeDasharray="3 3"
           />
         </svg>
 
@@ -102,15 +101,15 @@ export function PIDGraphViewer({ graphData }: PIDGraphViewerProps) {
                 height: `${height}%`,
               }}
               className={cn(
-                "absolute flex flex-col items-center justify-center rounded-lg border-2 transition-all cursor-pointer select-none",
+                "absolute flex flex-col items-center justify-center rounded border transition-all cursor-pointer select-none",
                 isSelected
-                  ? "border-primary bg-primary/30 ring-4 ring-primary/40 shadow-xl z-20"
+                  ? "border-emerald-400 bg-emerald-500/20 ring-2 ring-emerald-400/40 z-20"
                   : isHovered
-                  ? "border-amber-400 bg-amber-400/25 z-10"
-                  : "border-cyan-400/50 bg-cyan-950/50 hover:border-cyan-300"
+                  ? "border-amber-400 bg-amber-400/20 z-10"
+                  : "border-neutral-600 bg-neutral-900/70 hover:border-neutral-400"
               )}
             >
-              <span className="text-[11px] font-bold text-white bg-black/80 px-1.5 py-0.5 rounded shadow">
+              <span className="text-[10px] font-semibold text-neutral-200 bg-neutral-900/90 px-1 py-0.2 rounded border border-neutral-700">
                 {node.tag}
               </span>
             </button>
@@ -119,24 +118,23 @@ export function PIDGraphViewer({ graphData }: PIDGraphViewerProps) {
 
         {/* Active Node Callout */}
         {activeNode && (
-          <div className="absolute bottom-3 left-3 z-30 flex items-center gap-2 rounded-xl border border-border bg-background/95 px-3 py-2 text-xs shadow-xl backdrop-blur">
-            <MapPin className="size-4 text-primary shrink-0" />
+          <div className="absolute bottom-2 left-2 z-30 flex items-center gap-1.5 rounded-lg border border-border bg-neutral-900/95 px-2.5 py-1.5 text-xs shadow-md backdrop-blur">
+            <MapPin className="size-3 text-emerald-400 shrink-0" />
             <div>
-              <span className="font-bold text-foreground">{activeNode.tag}</span>: {activeNode.label}
-              <span className="text-muted-foreground ml-1.5 font-normal">({activeNode.lineAssociation})</span>
+              <span className="font-semibold text-foreground">{activeNode.tag}</span>: {activeNode.label}
             </div>
           </div>
         )}
       </div>
 
-      {/* Equipment List & Simple Story Breakdown */}
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-        <div className="rounded-xl border border-border bg-card/80 p-3 shadow-sm">
-          <span className="text-xs font-bold uppercase text-muted-foreground">
-            Equipment on Diagram (Click to View)
+      {/* Equipment List & Flow Breakdown */}
+      <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+        <div className="rounded-xl border border-border/80 bg-background/80 p-3">
+          <span className="text-[11px] font-medium text-muted-foreground">
+            Components
           </span>
-          <ScrollArea className="h-32 mt-2 pr-2">
-            <div className="space-y-1.5">
+          <ScrollArea className="h-28 mt-1.5 pr-2">
+            <div className="space-y-1">
               {graph.nodes.map((node) => {
                 const isSelected = selectedNode?.id === node.id
                 return (
@@ -144,19 +142,16 @@ export function PIDGraphViewer({ graphData }: PIDGraphViewerProps) {
                     key={node.id}
                     onClick={() => setSelectedNode(isSelected ? null : node)}
                     className={cn(
-                      "flex w-full items-center justify-between rounded-lg px-2.5 py-1.5 text-left text-xs transition-colors border",
+                      "flex w-full items-center justify-between rounded-md px-2 py-1 text-left text-xs transition-colors",
                       isSelected
-                        ? "border-primary bg-primary/10 text-foreground font-bold shadow-sm"
-                        : "border-transparent hover:bg-muted text-muted-foreground hover:text-foreground font-medium"
+                        ? "bg-secondary text-foreground font-medium"
+                        : "hover:bg-muted/60 text-muted-foreground hover:text-foreground"
                     )}
                   >
-                    <div className="flex items-center gap-2 truncate">
-                      <span className="text-primary font-bold">{node.tag}</span>
-                      <span className="text-foreground truncate">{node.label}</span>
+                    <div className="flex items-center gap-1.5 truncate">
+                      <span className="font-semibold text-foreground">{node.tag}</span>
+                      <span className="text-muted-foreground truncate">{node.label}</span>
                     </div>
-                    <Badge variant="secondary" className="text-[10px]">
-                      {node.lineAssociation}
-                    </Badge>
                   </button>
                 )
               })}
@@ -165,14 +160,13 @@ export function PIDGraphViewer({ graphData }: PIDGraphViewerProps) {
         </div>
 
         {/* Flow Story */}
-        <div className="rounded-xl border border-border bg-card/80 p-3 shadow-sm flex flex-col">
-          <div className="flex items-center justify-between mb-1.5">
-            <span className="text-xs font-bold uppercase text-muted-foreground flex items-center gap-1.5">
-              <Sparkles className="size-3.5 text-primary" />
-              How the Liquid Flows
+        <div className="rounded-xl border border-border/80 bg-background/80 p-3 flex flex-col">
+          <div className="flex items-center justify-between mb-1">
+            <span className="text-[11px] font-medium text-muted-foreground">
+              Flow Summary
             </span>
           </div>
-          <ScrollArea className="h-32 text-xs text-foreground/90 leading-relaxed pr-2">
+          <ScrollArea className="h-28 text-[11px] text-muted-foreground leading-relaxed pr-2">
             <p className="whitespace-pre-line">{graph.flowNarrative}</p>
           </ScrollArea>
         </div>

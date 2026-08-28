@@ -2,9 +2,9 @@
 
 import React from "react"
 import {
-  CheckCircle2,
-  AlertCircle,
-  Play,
+  Check,
+  AlertTriangle,
+  Loader2,
   FileText,
   Search,
   Calculator,
@@ -17,100 +17,82 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion"
-import { Badge } from "@/components/ui/badge"
 import { AgentStep } from "@/types/workbench"
+import { cn } from "@/lib/utils"
 
 interface AgentStepAccordionProps {
   steps: AgentStep[]
 }
 
 export function AgentStepAccordion({ steps }: AgentStepAccordionProps) {
-  const getStatusBadge = (status: AgentStep["status"]) => {
+  const getStatusIcon = (status: AgentStep["status"]) => {
     switch (status) {
       case "passed":
-        return (
-          <Badge variant="outline" className="gap-1 border-blue-500/30 bg-blue-500/10 text-blue-600 dark:text-blue-400 text-xs font-semibold">
-            <CheckCircle2 className="size-3.5" />
-            Completed
-          </Badge>
-        )
       case "repaired":
-        return (
-          <Badge variant="outline" className="gap-1 border-primary/30 bg-primary/10 text-primary text-xs font-semibold">
-            <CheckCircle2 className="size-3.5" />
-            Auto-Corrected
-          </Badge>
-        )
+        return <Check className="size-3.5 text-emerald-500" />
       case "failed":
-        return (
-          <Badge variant="outline" className="gap-1 border-destructive/30 bg-destructive/10 text-destructive text-xs font-semibold">
-            <AlertCircle className="size-3.5" />
-            Issue Found
-          </Badge>
-        )
+        return <AlertTriangle className="size-3.5 text-destructive" />
       case "running":
-        return (
-          <Badge variant="outline" className="gap-1 border-amber-500/30 bg-amber-500/10 text-amber-600 dark:text-amber-300 text-xs font-semibold animate-pulse">
-            <Play className="size-3.5" />
-            In Progress
-          </Badge>
-        )
+        return <Loader2 className="size-3.5 text-amber-500 animate-spin" />
       default:
-        return (
-          <Badge variant="secondary" className="text-xs">
-            Pending
-          </Badge>
-        )
+        return <span className="size-2 rounded-full bg-muted-foreground/40" />
     }
   }
 
   const getStepIcon = (title: string) => {
-    if (title.toLowerCase().includes("read") || title.toLowerCase().includes("scan")) return <FileText className="size-4 text-blue-500" />
-    if (title.toLowerCase().includes("sop") || title.toLowerCase().includes("rule")) return <Search className="size-4 text-primary" />
-    if (title.toLowerCase().includes("calc") || title.toLowerCase().includes("math")) return <Calculator className="size-4 text-blue-400" />
-    if (title.toLowerCase().includes("document") || title.toLowerCase().includes("word") || title.toLowerCase().includes("excel")) return <FileSpreadsheet className="size-4 text-primary" />
-    return <Layers className="size-4 text-primary" />
+    const t = title.toLowerCase()
+    if (t.includes("read") || t.includes("scan")) return <FileText className="size-3.5 text-muted-foreground" />
+    if (t.includes("sop") || t.includes("rule")) return <Search className="size-3.5 text-muted-foreground" />
+    if (t.includes("calc") || t.includes("math") || t.includes("formula")) return <Calculator className="size-3.5 text-muted-foreground" />
+    if (t.includes("document") || t.includes("word") || t.includes("excel")) return <FileSpreadsheet className="size-3.5 text-muted-foreground" />
+    return <Layers className="size-3.5 text-muted-foreground" />
   }
 
   return (
-    <div className="my-4 flex flex-col gap-2.5">
-      <div className="flex items-center justify-between px-1">
-        <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
-          Step-by-Step Task Execution ({steps.length} Steps)
+    <div className="my-3 flex flex-col gap-2">
+      <div className="flex items-center justify-between px-0.5">
+        <span className="text-xs font-medium text-muted-foreground">
+          Execution Steps ({steps.length})
         </span>
-        <span className="text-xs text-muted-foreground">Every step is verified</span>
       </div>
 
-      <Accordion multiple defaultValue={["step-1", "step-2", "step-3", "step-4", "step-5", "step-6"]} className="space-y-2.5 border-none">
+      <Accordion multiple defaultValue={["step-1", "step-2", "step-3", "step-4", "step-5", "step-6"]} className="space-y-1.5 border-none">
         {steps.map((step, idx) => (
           <AccordionItem
             key={step.stepId}
             value={step.stepId}
-            className="rounded-xl border border-border/80 bg-card/70 px-4 shadow-sm transition-all data-open:bg-card"
+            className="rounded-xl border border-border/70 bg-card/60 px-3.5 shadow-none transition-colors data-open:bg-card"
           >
-            <AccordionTrigger className="py-3 hover:no-underline">
-              <div className="flex flex-1 items-center justify-between pr-3 text-left">
-                <div className="flex items-center gap-3">
-                  <div className="flex size-7 shrink-0 items-center justify-center rounded-lg border border-border bg-background">
-                    {getStepIcon(step.title)}
+            <AccordionTrigger className="py-2.5 hover:no-underline text-xs">
+              <div className="flex flex-1 items-center justify-between pr-2 text-left">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="flex size-5 shrink-0 items-center justify-center">
+                    {getStatusIcon(step.status)}
                   </div>
-                  <div>
-                    <span className="text-sm font-semibold text-foreground">
-                      Step {idx + 1}: {step.title}
-                    </span>
-                  </div>
+                  <span className="font-medium text-foreground text-xs truncate">
+                    {step.title}
+                  </span>
                 </div>
 
-                <div>
-                  {getStatusBadge(step.status)}
+                <div className="flex items-center gap-2 shrink-0">
+                  {step.status === "repaired" && (
+                    <span className="text-[10px] text-amber-500 font-medium bg-amber-500/10 px-1.5 py-0.5 rounded">
+                      Auto-Corrected
+                    </span>
+                  )}
+                  {step.durationMs ? (
+                    <span className="text-[10px] text-muted-foreground">
+                      {step.durationMs}ms
+                    </span>
+                  ) : null}
                 </div>
               </div>
             </AccordionTrigger>
 
-            <AccordionContent className="pt-2 pb-4 text-sm text-foreground/90 leading-relaxed border-t border-border/40 mt-1">
-              <p className="p-2 rounded-lg bg-background/60 border border-border/40">
+            <AccordionContent className="pt-1 pb-3 text-xs text-muted-foreground leading-relaxed">
+              <div className="p-2.5 rounded-lg bg-muted/40 border border-border/40 text-foreground/90 font-normal">
                 {step.description}
-              </p>
+              </div>
             </AccordionContent>
           </AccordionItem>
         ))}

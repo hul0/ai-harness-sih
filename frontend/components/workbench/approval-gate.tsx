@@ -2,11 +2,10 @@
 
 import React from "react"
 import {
-  AlertTriangle,
+  AlertCircle,
   CheckCircle2,
   XCircle,
   RotateCcw,
-  ShieldCheck,
   FileText,
   UserCheck,
 } from "lucide-react"
@@ -28,33 +27,33 @@ export function ApprovalGate() {
 
   return (
     <Card className={cn(
-      "my-5 border-2 rounded-2xl transition-all shadow-md overflow-hidden",
-      isApproved && "border-blue-500/40 bg-blue-500/5",
-      isRejected && "border-destructive/40 bg-destructive/5",
-      !isApproved && !isRejected && "border-amber-500/50 bg-amber-500/5"
+      "my-4 rounded-xl border bg-card shadow-sm overflow-hidden transition-all",
+      isApproved && "border-emerald-500/30 bg-emerald-500/5",
+      isRejected && "border-destructive/30 bg-destructive/5",
+      !isApproved && !isRejected && "border-amber-500/30 bg-card"
     )}>
-      <CardHeader className="p-5 pb-3">
+      <CardHeader className="p-4 pb-2">
         <div className="flex flex-wrap items-center justify-between gap-3">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5">
             <div className={cn(
-              "flex size-10 items-center justify-center rounded-xl border shadow-sm",
-              isApproved && "bg-blue-500/20 text-blue-600 dark:text-blue-400 border-blue-500/30",
-              isRejected && "bg-destructive/20 text-destructive border-destructive/30",
-              !isApproved && !isRejected && "bg-amber-500/20 text-amber-600 dark:text-amber-400 border-amber-500/30 animate-pulse"
+              "flex size-8 items-center justify-center rounded-lg border",
+              isApproved && "bg-emerald-500/10 text-emerald-500 border-emerald-500/20",
+              isRejected && "bg-destructive/10 text-destructive border-destructive/20",
+              !isApproved && !isRejected && "bg-amber-500/10 text-amber-500 border-amber-500/20"
             )}>
               {isApproved ? (
-                <CheckCircle2 className="size-5" />
+                <CheckCircle2 className="size-4" />
               ) : isRejected ? (
-                <XCircle className="size-5" />
+                <XCircle className="size-4" />
               ) : (
-                <AlertTriangle className="size-5" />
+                <AlertCircle className="size-4" />
               )}
             </div>
             <div>
-              <h3 className="text-base font-bold text-foreground">
+              <h3 className="text-sm font-semibold text-foreground">
                 {approvalGateConfig.title}
               </h3>
-              <p className="text-xs text-muted-foreground mt-0.5">
+              <p className="text-xs text-muted-foreground">
                 {approvalGateConfig.subtitle}
               </p>
             </div>
@@ -63,98 +62,96 @@ export function ApprovalGate() {
           <Badge
             variant="outline"
             className={cn(
-              "text-xs font-bold px-3 py-1 rounded-full",
-              isApproved && "border-blue-500/40 bg-blue-500/10 text-blue-600 dark:text-blue-400",
-              isRejected && "border-destructive/40 bg-destructive/10 text-destructive",
-              !isApproved && !isRejected && "border-amber-500/40 bg-amber-500/10 text-amber-700 dark:text-amber-300"
+              "text-[11px] font-medium px-2.5 py-0.5 rounded-md",
+              isApproved && "border-emerald-500/30 bg-emerald-500/10 text-emerald-500",
+              isRejected && "border-destructive/30 bg-destructive/10 text-destructive",
+              !isApproved && !isRejected && "border-amber-500/30 bg-amber-500/10 text-amber-500"
             )}
           >
-            {isApproved ? "Approved & Finalized" : isRejected ? "Decline Confirmed" : "Action Required"}
+            {isApproved ? "Approved" : isRejected ? "Declined" : "Action Required"}
           </Badge>
         </div>
       </CardHeader>
 
-      <CardContent className="p-5 pt-2 space-y-4">
+      <CardContent className="p-4 pt-1 space-y-3">
         {/* Recommendation Statement */}
-        <div className="rounded-xl border border-border bg-background p-4 shadow-sm">
-          <span className="text-xs font-bold uppercase text-muted-foreground tracking-wider">
-            AI Finding &amp; Recommendation
+        <div className="rounded-lg border border-border/80 bg-background/60 p-3">
+          <span className="text-[11px] font-medium uppercase text-muted-foreground tracking-wider">
+            Recommendation
           </span>
-          <p className="mt-1 text-base font-bold text-foreground leading-snug">
+          <p className="mt-1 text-sm font-semibold text-foreground leading-snug">
             {approvalData.recommendation}
           </p>
-          <p className="mt-2 text-sm text-muted-foreground leading-relaxed">
+          <p className="mt-1.5 text-xs text-muted-foreground leading-relaxed">
             {approvalData.rationale}
           </p>
         </div>
 
-        {/* Plain Numbers Breakdown */}
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-          <div className="rounded-xl border border-border bg-background/90 p-3 shadow-sm">
-            <span className="text-xs font-medium text-muted-foreground">Measured Thickness</span>
-            <p className="mt-1 text-lg font-bold text-destructive">{approvalData.measuredValue}</p>
+        {/* Metrics Grid */}
+        <div className="grid grid-cols-1 gap-2 sm:grid-cols-3">
+          <div className="rounded-lg border border-border/60 bg-background/40 p-2.5">
+            <span className="text-[11px] text-muted-foreground">Measured Thickness</span>
+            <p className="mt-0.5 text-base font-bold text-destructive">{approvalData.measuredValue}</p>
           </div>
-          <div className="rounded-xl border border-border bg-background/90 p-3 shadow-sm">
-            <span className="text-xs font-medium text-muted-foreground">Minimum Safe Limit</span>
-            <p className="mt-1 text-lg font-bold text-foreground">{approvalData.thresholdValue}</p>
+          <div className="rounded-lg border border-border/60 bg-background/40 p-2.5">
+            <span className="text-[11px] text-muted-foreground">Safe Limit</span>
+            <p className="mt-0.5 text-base font-bold text-foreground">{approvalData.thresholdValue}</p>
           </div>
-          <div className="rounded-xl border border-border bg-background/90 p-3 shadow-sm">
-            <span className="text-xs font-medium text-muted-foreground">Safety Standard</span>
-            <p className="mt-1 text-sm font-semibold text-primary">{approvalData.standardRef}</p>
+          <div className="rounded-lg border border-border/60 bg-background/40 p-2.5">
+            <span className="text-[11px] text-muted-foreground">Standard</span>
+            <p className="mt-0.5 text-xs font-medium text-foreground truncate">{approvalData.standardRef}</p>
           </div>
         </div>
 
-        {/* Ready Deliverables list */}
-        <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
-          <span className="font-semibold text-foreground">Documents Prepared for Signature:</span>
-          <div className="flex flex-wrap gap-2">
-            {approvalData.deliverablesPending.map((doc) => (
-              <Badge key={doc} variant="secondary" className="gap-1.5 py-1 px-2.5 text-xs font-medium">
-                <FileText className="size-3.5 text-primary" />
-                {doc}
-              </Badge>
-            ))}
-          </div>
+        {/* Prepared Deliverables list */}
+        <div className="flex flex-wrap items-center gap-1.5 text-xs text-muted-foreground pt-1">
+          <span className="text-[11px]">Ready files:</span>
+          {approvalData.deliverablesPending.map((doc) => (
+            <span key={doc} className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-secondary text-foreground text-[11px]">
+              <FileText className="size-3 text-muted-foreground" />
+              {doc}
+            </span>
+          ))}
         </div>
       </CardContent>
 
-      <CardFooter className="flex flex-wrap items-center justify-between gap-3 border-t border-border/60 bg-muted/20 p-4">
-        <div className="flex items-center gap-2 text-xs text-muted-foreground font-medium">
-          <UserCheck className="size-4 text-primary" />
-          <span>Required Signer: {approvalData.reviewerRoleRequired}</span>
+      <CardFooter className="flex flex-wrap items-center justify-between gap-2.5 border-t border-border/60 bg-muted/30 p-3">
+        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+          <UserCheck className="size-3.5" />
+          <span>Signer: {approvalData.reviewerRoleRequired}</span>
         </div>
 
         {!isApproved && !isRejected ? (
-          <div className="flex flex-wrap items-center gap-2.5">
+          <div className="flex items-center gap-2">
             <Button
               variant="outline"
-              size="default"
+              size="sm"
               onClick={handleModify}
-              className="gap-2 text-xs font-semibold h-9 px-3"
+              className="gap-1.5 text-xs h-8 px-2.5"
             >
-              <RotateCcw className="size-4" />
-              <span>Ask AI to Adjust</span>
+              <RotateCcw className="size-3.5" />
+              <span>Adjust</span>
             </Button>
             <Button
-              variant="destructive"
-              size="default"
+              variant="ghost"
+              size="sm"
               onClick={handleReject}
-              className="gap-2 text-xs font-semibold h-9 px-3"
+              className="gap-1.5 text-xs text-destructive hover:bg-destructive/10 h-8 px-2.5"
             >
-              <XCircle className="size-4" />
+              <XCircle className="size-3.5" />
               <span>Decline</span>
             </Button>
             <Button
-              size="default"
+              size="sm"
               onClick={handleApprove}
-              className="gap-2 bg-primary hover:bg-primary/90 text-primary-foreground font-bold text-xs h-9 px-4 shadow"
+              className="gap-1.5 bg-foreground text-background hover:bg-foreground/90 text-xs font-semibold h-8 px-3.5 shadow-none"
             >
-              <CheckCircle2 className="size-4" />
+              <CheckCircle2 className="size-3.5" />
               <span>Approve &amp; Sign</span>
             </Button>
           </div>
         ) : (
-          <div className="text-xs font-semibold text-muted-foreground">
+          <div className="text-xs text-muted-foreground">
             Sign-off recorded at {new Date().toLocaleTimeString()}
           </div>
         )}

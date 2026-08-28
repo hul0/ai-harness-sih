@@ -6,7 +6,6 @@ import {
   Upload,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
 import { Card } from "@/components/ui/card"
 
 const sopList = [
@@ -15,8 +14,8 @@ const sopList = [
     title: "Static Equipment & Piping Retirement Thickness Standards",
     chunks: 48,
     lastIndexed: "Today at 06:30 PM",
-    category: "Refinery Safety Guidelines",
-    description: "Defines the allowable corrosion loss, retirement wall thickness limits, and mandatory actions when a pipe is too thin.",
+    category: "Safety Guidelines",
+    description: "Defines allowable corrosion loss, retirement wall thickness limits, and mandatory replacement protocols.",
   },
   {
     code: "MRPL Safety Policy 2024",
@@ -38,89 +37,74 @@ const sopList = [
 
 export default function KnowledgePage() {
   return (
-    <div className="flex-1 overflow-y-auto p-6 md:p-8 space-y-6">
+    <div className="flex-1 overflow-y-auto p-6 md:p-8 space-y-6 max-w-6xl mx-auto">
       {/* Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border pb-4">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-border/60 pb-4">
         <div>
-          <h2 className="text-xl font-bold text-foreground flex items-center gap-2.5">
-            <BookOpen className="size-5 text-primary" />
-            <span>Company Guidelines &amp; Safety Manuals (SOPs)</span>
+          <h2 className="text-lg font-semibold text-foreground flex items-center gap-2">
+            <BookOpen className="size-4 text-muted-foreground" />
+            <span>Guidelines &amp; Manuals</span>
           </h2>
-          <p className="text-sm text-muted-foreground mt-0.5">
-            Official refinery manuals used by the AI assistant to verify measurements and ensure compliance.
+          <p className="text-xs text-muted-foreground mt-0.5">
+            Operating procedures and manuals indexed for verification and safety compliance.
           </p>
         </div>
 
-        <Button size="default" className="gap-2 font-bold text-xs rounded-xl shadow-sm">
-          <Upload className="size-4" />
-          <span>Add New Company Rule / SOP</span>
+        <Button size="sm" className="gap-1.5 text-xs font-medium rounded-lg">
+          <Upload className="size-3.5" />
+          <span>Add Guideline</span>
         </Button>
       </div>
 
       {/* Overview Cards */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-        <Card className="border-border p-5 bg-card rounded-2xl shadow-sm">
-          <div className="flex items-center justify-between mb-1.5">
-            <span className="text-xs font-semibold text-muted-foreground">Indexed Safety Rules</span>
-            <Badge variant="outline" className="text-xs text-blue-600 dark:text-blue-400 border-blue-500/30">
-              Active
-            </Badge>
-          </div>
-          <p className="text-2xl font-bold text-foreground">148 Clauses</p>
-          <span className="text-xs text-muted-foreground">Across 3 Official Manuals</span>
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
+        <Card className="border-border/80 p-4 bg-card rounded-xl shadow-none">
+          <span className="text-xs text-muted-foreground">Indexed Rules</span>
+          <p className="text-xl font-semibold text-foreground mt-1">148 Clauses</p>
+          <span className="text-[11px] text-muted-foreground">Across 3 Manuals</span>
         </Card>
 
-        <Card className="border-border p-5 bg-card rounded-2xl shadow-sm">
-          <div className="flex items-center justify-between mb-1.5">
-            <span className="text-xs font-semibold text-muted-foreground">Verification Accuracy</span>
-            <Badge variant="outline" className="text-xs text-primary border-primary/30">
-              100% Traceable
-            </Badge>
-          </div>
-          <p className="text-2xl font-bold text-foreground">Exact Page Matches</p>
-          <span className="text-xs text-muted-foreground">Every recommendation cites exact section</span>
+        <Card className="border-border/80 p-4 bg-card rounded-xl shadow-none">
+          <span className="text-xs text-muted-foreground">Citation Matching</span>
+          <p className="text-xl font-semibold text-foreground mt-1">Exact Section</p>
+          <span className="text-[11px] text-muted-foreground">Direct page number references</span>
         </Card>
 
-        <Card className="border-border p-5 bg-card rounded-2xl shadow-sm">
-          <div className="flex items-center justify-between mb-1.5">
-            <span className="text-xs font-semibold text-muted-foreground">Privacy Protection</span>
-            <Badge variant="outline" className="text-xs text-blue-600 dark:text-blue-400 border-blue-500/30">
-              On-Device Only
-            </Badge>
-          </div>
-          <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">Strictly Private</p>
-          <span className="text-xs text-muted-foreground">Manuals never leave this device</span>
+        <Card className="border-border/80 p-4 bg-card rounded-xl shadow-none">
+          <span className="text-xs text-muted-foreground">Index Storage</span>
+          <p className="text-xl font-semibold text-foreground mt-1">Local Vector DB</p>
+          <span className="text-[11px] text-muted-foreground">Stored on-device</span>
         </Card>
       </div>
 
       {/* Ingested Manuals List */}
-      <div className="space-y-4">
-        <h3 className="text-base font-bold text-foreground">
-          Active Company Manuals &amp; Guidelines
+      <div className="space-y-3">
+        <h3 className="text-sm font-medium text-foreground">
+          Active Manuals
         </h3>
 
-        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
           {sopList.map((sop) => (
-            <Card key={sop.code} className="border-border bg-card p-5 rounded-2xl shadow-sm hover:border-primary/40 transition-colors">
+            <Card key={sop.code} className="border-border/80 bg-card p-4 rounded-xl shadow-none hover:border-border transition-colors">
               <div className="flex items-start justify-between gap-2">
-                <Badge variant="secondary" className="text-xs text-primary font-bold px-2.5 py-1">
+                <span className="text-xs font-semibold text-foreground bg-secondary px-2 py-0.5 rounded">
                   {sop.code}
-                </Badge>
-                <Badge variant="outline" className="text-xs text-blue-600 dark:text-blue-400 border-blue-500/30 font-semibold">
-                  {sop.chunks} Verified Sections
-                </Badge>
+                </span>
+                <span className="text-[11px] text-muted-foreground">
+                  {sop.chunks} sections
+                </span>
               </div>
 
-              <h4 className="mt-3 text-sm font-bold text-foreground leading-snug">
+              <h4 className="mt-2 text-xs font-semibold text-foreground leading-snug">
                 {sop.title}
               </h4>
 
-              <p className="mt-2 text-xs text-muted-foreground leading-relaxed">
+              <p className="mt-1 text-xs text-muted-foreground leading-relaxed">
                 {sop.description}
               </p>
 
-              <div className="mt-4 flex items-center justify-between border-t border-border/60 pt-3 text-xs text-muted-foreground">
-                <span className="font-medium text-foreground">{sop.category}</span>
+              <div className="mt-3 flex items-center justify-between border-t border-border/40 pt-2 text-[11px] text-muted-foreground">
+                <span>{sop.category}</span>
                 <span>Updated: {sop.lastIndexed}</span>
               </div>
             </Card>

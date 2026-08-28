@@ -2,16 +2,14 @@
 
 import React, { useState } from "react"
 import {
-  Send,
+  ArrowUp,
   Paperclip,
   User,
   Sparkles,
   FileText,
-  ShieldCheck,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-import { Badge } from "@/components/ui/badge"
 import { useWorkbench } from "@/lib/workbench-context"
 import { RoutingReceiptBadge } from "./routing-receipt-badge"
 import { AgentStepAccordion } from "./agent-step-accordion"
@@ -24,13 +22,13 @@ export function ConversationStream() {
   const getScenarioAttachedFile = () => {
     switch (scenarioKey) {
       case "inspection_report":
-        return { name: "MRPL_UT_Thickness_L2041_Scan.pdf", size: "2.4 MB", type: "Ultrasonic Thickness Report" }
+        return { name: "MRPL_UT_Thickness_L2041_Scan.pdf", size: "2.4 MB", type: "Ultrasonic Scan" }
       case "sandbox_repair":
-        return { name: "test_orifice_boundary.py", size: "3.1 KB", type: "Calculation Test Script" }
+        return { name: "test_orifice_boundary.py", size: "3.1 KB", type: "Calculation Script" }
       case "pid_analysis":
-        return { name: "MRPL_PID_C101_Distillation.png", size: "4.8 MB", type: "Plant Layout Drawing" }
+        return { name: "MRPL_PID_C101_Distillation.png", size: "4.8 MB", type: "P&ID Drawing" }
       case "sovereignty_proof":
-        return { name: "network_security_policy.conf", size: "1.2 KB", type: "Privacy Rule Document" }
+        return { name: "network_security_policy.conf", size: "1.2 KB", type: "Policy Config" }
       default:
         return null
     }
@@ -41,91 +39,83 @@ export function ConversationStream() {
   return (
     <div className="flex flex-1 flex-col h-full overflow-hidden bg-background">
       {/* Scrollable Conversation Thread */}
-      <div className="flex-1 overflow-y-auto p-4 md:p-8 space-y-6">
-        {/* User Prompt Message */}
-        <div className="flex items-start gap-4 max-w-4xl mx-auto">
-          <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-secondary text-secondary-foreground border border-border shadow-sm">
-            <User className="size-5" />
-          </div>
-          <div className="flex-1 space-y-2">
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-sm text-foreground">You (Officer in Charge)</span>
-              <span className="text-xs text-muted-foreground">{activeTask.createdAt}</span>
-            </div>
-            
-            <div className="rounded-2xl border border-border bg-card p-4 shadow-sm">
-              <p className="text-sm md:text-base text-foreground leading-relaxed">
-                {activeTask.userPrompt}
-              </p>
+      <div className="flex-1 overflow-y-auto p-4 md:p-6 space-y-6">
+        <div className="max-w-3xl mx-auto space-y-6">
+          {/* User Message */}
+          <div className="flex items-start gap-3.5 justify-end">
+            <div className="max-w-xl space-y-2">
+              <div className="rounded-2xl bg-secondary px-4 py-3 text-sm text-foreground shadow-sm">
+                <p className="leading-relaxed">
+                  {activeTask.userPrompt}
+                </p>
 
-              {attachedFile && (
-                <div className="mt-3.5 flex flex-wrap items-center gap-2 pt-3 border-t border-border/60">
-                  <Badge variant="outline" className="gap-2 py-1.5 px-3 text-xs font-semibold text-foreground bg-background rounded-lg border-primary/30">
-                    <FileText className="size-4 text-primary" />
-                    <span>{attachedFile.name}</span>
-                    <span className="text-muted-foreground font-normal">({attachedFile.size})</span>
-                  </Badge>
-                  <span className="text-xs text-muted-foreground">{attachedFile.type}</span>
-                </div>
-              )}
+                {attachedFile && (
+                  <div className="mt-2.5 flex items-center gap-2 pt-2 border-t border-border/40 text-xs text-muted-foreground">
+                    <FileText className="size-3.5 text-foreground shrink-0" />
+                    <span className="font-medium text-foreground truncate">{attachedFile.name}</span>
+                    <span className="text-[11px]">({attachedFile.size})</span>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
-        </div>
 
-        {/* AI Agent Execution & Progress */}
-        <div className="flex items-start gap-4 max-w-4xl mx-auto">
-          <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-md shadow-primary/25">
-            <Sparkles className="size-5" />
-          </div>
-          <div className="flex-1 min-w-0 space-y-3">
-            <div className="flex items-center gap-2.5">
-              <span className="font-bold text-sm text-foreground">Saarthi AI Assistant</span>
-              <Badge variant="secondary" className="text-xs font-medium">Automatic Workplace Workflow</Badge>
+          {/* AI Response Stream */}
+          <div className="flex items-start gap-3.5">
+            <div className="flex size-7 shrink-0 items-center justify-center rounded-full bg-foreground text-background font-bold mt-0.5 shadow-sm">
+              <Sparkles className="size-3.5" />
             </div>
 
-            {/* Model Routing Receipt in Plain English */}
-            <RoutingReceiptBadge routing={activeTask.routing} />
+            <div className="flex-1 min-w-0 space-y-3">
+              {/* Clean Routing Receipt */}
+              <RoutingReceiptBadge routing={activeTask.routing} />
 
-            {/* Step Progression Accordion */}
-            <AgentStepAccordion steps={activeTask.steps} />
+              {/* Step Progression Accordion */}
+              <AgentStepAccordion steps={activeTask.steps} />
 
-            {/* Human Approval Gate */}
-            {activeTask.requiresApproval && <ApprovalGate />}
+              {/* Human Approval Gate if applicable */}
+              {activeTask.requiresApproval && <ApprovalGate />}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Bottom Input Box */}
-      <div className="border-t border-border bg-card/60 p-4 shrink-0">
-        <div className="max-w-4xl mx-auto space-y-2.5">
-          <div className="relative rounded-2xl border border-border bg-background shadow-sm focus-within:ring-2 focus-within:ring-primary/40 focus-within:border-primary">
+      {/* ChatGPT-style Sleek Capsule Input */}
+      <div className="p-4 bg-background/80 backdrop-blur shrink-0 border-t border-border/40">
+        <div className="max-w-3xl mx-auto">
+          <div className="relative rounded-2xl border border-border bg-card shadow-sm transition-all focus-within:border-foreground/30 focus-within:ring-1 focus-within:ring-foreground/20">
             <Textarea
               value={inputVal}
               onChange={(e) => setInputVal(e.target.value)}
-              placeholder="Ask a question, upload a new report, or request adjustments to this document..."
-              className="min-h-[56px] max-h-32 resize-none border-0 bg-transparent px-4 py-3 text-sm text-foreground placeholder:text-muted-foreground focus-visible:ring-0"
-              rows={2}
+              placeholder="Ask a question or request adjustments..."
+              className="min-h-[52px] max-h-32 resize-none border-0 bg-transparent px-4 pt-3 pb-2 text-sm text-foreground placeholder:text-muted-foreground focus-visible:ring-0 shadow-none"
+              rows={1}
             />
 
-            <div className="flex items-center justify-between px-3 pb-3 pt-1">
-              <div className="flex items-center gap-2">
-                <Button variant="ghost" size="sm" className="h-8 gap-2 text-xs font-medium text-muted-foreground hover:text-foreground">
-                  <Paperclip className="size-4" />
-                  <span>Attach Document or Photo</span>
-                </Button>
-              </div>
+            <div className="flex items-center justify-between px-3 pb-2.5 pt-0.5">
+              <Button
+                variant="ghost"
+                size="sm"
+                className="size-8 p-0 text-muted-foreground hover:text-foreground rounded-lg"
+                title="Attach file"
+              >
+                <Paperclip className="size-4" />
+              </Button>
 
-              <div className="flex items-center gap-3">
-                <span className="text-xs text-muted-foreground hidden sm:inline flex items-center gap-1">
-                  <ShieldCheck className="size-3.5 text-blue-500 inline" />
-                  100% Private Local Processing
-                </span>
-                <Button size="default" className="h-8 gap-2 px-4 text-xs font-bold rounded-lg shadow-sm">
-                  <Send className="size-3.5" />
-                  <span>Send Request</span>
-                </Button>
-              </div>
+              <Button
+                size="sm"
+                disabled={!inputVal.trim()}
+                className="size-8 p-0 rounded-full bg-foreground text-background hover:bg-foreground/90 disabled:opacity-30 disabled:hover:bg-foreground transition-opacity"
+              >
+                <ArrowUp className="size-4" />
+              </Button>
             </div>
+          </div>
+
+          <div className="mt-2 text-center">
+            <span className="text-[11px] text-muted-foreground">
+              Saarthi AI can assist with inspections, calculations, and official documentation.
+            </span>
           </div>
         </div>
       </div>

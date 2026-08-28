@@ -7,7 +7,7 @@ import {
   Table,
   Map,
   Download,
-  CheckCircle2,
+  Check,
   PanelRightClose,
   PanelRightOpen,
   Maximize2,
@@ -35,13 +35,13 @@ export function ContextPanel() {
 
   if (!isContextPanelOpen) {
     return (
-      <div className="flex h-full w-14 flex-col items-center border-l border-border bg-card/60 p-3 shrink-0">
+      <div className="flex h-full w-12 flex-col items-center border-l border-border bg-card/60 p-2 shrink-0">
         <Button
-          variant="outline"
+          variant="ghost"
           size="sm"
           onClick={() => setIsContextPanelOpen(true)}
-          className="size-9 p-0 text-muted-foreground hover:text-foreground rounded-lg"
-          title="Open Information & Documents Panel"
+          className="size-8 p-0 text-muted-foreground hover:text-foreground rounded-lg"
+          title="Open Context Panel"
         >
           <PanelRightOpen className="size-4" />
         </Button>
@@ -52,112 +52,107 @@ export function ContextPanel() {
   return (
     <aside
       className={cn(
-        "flex h-full flex-col border-l border-border bg-card shrink-0 transition-all duration-300 shadow-sm",
-        isExpandedView ? "w-full md:w-[680px]" : "w-full md:w-[440px]"
+        "flex h-full flex-col border-l border-border bg-card shrink-0 transition-all duration-200",
+        isExpandedView ? "w-full md:w-[640px]" : "w-full md:w-[400px]"
       )}
     >
-      {/* Header with Tab Triggers & Collapse Controls */}
-      <div className="flex h-14 items-center justify-between border-b border-border px-4 bg-muted/20">
-        <span className="text-xs font-bold uppercase text-muted-foreground tracking-wider">
-          Task Information &amp; Files
+      {/* Header with Tab Controls */}
+      <div className="flex h-12 items-center justify-between border-b border-border/80 px-4 bg-muted/20">
+        <span className="text-xs font-medium text-muted-foreground">
+          Context &amp; Files
         </span>
 
-        <div className="flex items-center gap-1.5">
+        <div className="flex items-center gap-1">
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setIsExpandedView(!isExpandedView)}
-            className="size-8 p-0 text-muted-foreground hover:text-foreground rounded-lg"
-            title={isExpandedView ? "Normal Size" : "Expand to Large View"}
+            className="size-7 p-0 text-muted-foreground hover:text-foreground rounded-md"
+            title={isExpandedView ? "Normal view" : "Expand view"}
           >
-            {isExpandedView ? <Minimize2 className="size-4" /> : <Maximize2 className="size-4" />}
+            {isExpandedView ? <Minimize2 className="size-3.5" /> : <Maximize2 className="size-3.5" />}
           </Button>
 
           <Button
             variant="ghost"
             size="sm"
             onClick={() => setIsContextPanelOpen(false)}
-            className="size-8 p-0 text-muted-foreground hover:text-foreground rounded-lg"
-            title="Close Panel"
+            className="size-7 p-0 text-muted-foreground hover:text-foreground rounded-md"
+            title="Close panel"
           >
-            <PanelRightClose className="size-4" />
+            <PanelRightClose className="size-3.5" />
           </Button>
         </div>
       </div>
 
       {/* Tabs Container */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col overflow-hidden">
-        <div className="px-3 pt-2.5 border-b border-border bg-background/50">
-          <TabsList className="grid grid-cols-4 h-10 w-full p-1 rounded-xl">
-            <TabsTrigger value="artifacts" className="text-xs gap-1.5 font-semibold">
-              <FileCheck className="size-3.5" />
-              <span>Documents</span>
+        <div className="px-3 pt-2 pb-1.5 border-b border-border/60 bg-background/40">
+          <TabsList className="grid grid-cols-4 h-8 w-full p-0.5 rounded-lg bg-muted/60">
+            <TabsTrigger value="artifacts" className="text-xs gap-1 font-medium data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-none">
+              <FileCheck className="size-3" />
+              <span>Docs</span>
             </TabsTrigger>
 
-            <TabsTrigger value="sources" className="text-xs gap-1.5 font-semibold">
-              <BookOpen className="size-3.5" />
-              <span>Safety Rules</span>
+            <TabsTrigger value="sources" className="text-xs gap-1 font-medium data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-none">
+              <BookOpen className="size-3" />
+              <span>SOPs</span>
             </TabsTrigger>
 
-            <TabsTrigger value="pid" className="text-xs gap-1.5 font-semibold">
-              <Map className="size-3.5" />
-              <span>Diagram</span>
+            <TabsTrigger value="pid" className="text-xs gap-1 font-medium data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-none">
+              <Map className="size-3" />
+              <span>P&amp;ID</span>
             </TabsTrigger>
 
-            <TabsTrigger value="files" className="text-xs gap-1.5 font-semibold">
-              <FileText className="size-3.5" />
-              <span>Uploads</span>
+            <TabsTrigger value="files" className="text-xs gap-1 font-medium data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow-none">
+              <FileText className="size-3" />
+              <span>Files</span>
             </TabsTrigger>
           </TabsList>
         </div>
 
         {/* Tab 1: Artifacts & Deliverables */}
-        <TabsContent value="artifacts" className="flex-1 p-4 m-0 overflow-y-auto space-y-3.5">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-muted-foreground uppercase">
-              Ready-to-Download Files ({activeTask.artifacts.length})
-            </span>
-            <Badge variant="outline" className="text-xs text-blue-600 dark:text-blue-400 border-blue-500/30 font-semibold">
-              Verified Ready
-            </Badge>
+        <TabsContent value="artifacts" className="flex-1 p-3.5 m-0 overflow-y-auto space-y-3">
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
+            <span>Generated Documents ({activeTask.artifacts.length})</span>
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             {activeTask.artifacts.map((art) => (
-              <Card key={art.id} className="border-border bg-background p-4 rounded-xl shadow-sm hover:border-primary/40 transition-colors">
+              <Card key={art.id} className="border-border/80 bg-background/80 p-3.5 rounded-xl shadow-none hover:border-border transition-colors">
                 <div className="flex items-start justify-between gap-3">
-                  <div className="flex items-start gap-3">
-                    <div className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-primary/10 text-primary border border-primary/20">
+                  <div className="flex items-start gap-2.5 min-w-0">
+                    <div className="flex size-7 shrink-0 items-center justify-center rounded-md bg-secondary text-foreground mt-0.5">
                       {art.fileType === "docx" ? (
-                        <FileText className="size-4" />
+                        <FileText className="size-3.5" />
                       ) : art.fileType === "xlsx" ? (
-                        <Table className="size-4" />
+                        <Table className="size-3.5" />
                       ) : (
-                        <FileCheck className="size-4" />
+                        <FileCheck className="size-3.5" />
                       )}
                     </div>
-                    <div>
-                      <h5 className="text-xs font-bold text-foreground">
+                    <div className="min-w-0">
+                      <h5 className="text-xs font-semibold text-foreground truncate">
                         {art.filename}
                       </h5>
-                      <p className="text-[11px] text-muted-foreground mt-0.5">
-                        {art.fileSizeFormatted} · Standard Document Format
+                      <p className="text-[11px] text-muted-foreground">
+                        {art.fileSizeFormatted}
                       </p>
                     </div>
                   </div>
 
-                  <Button size="sm" variant="outline" className="h-8 gap-1.5 text-xs font-semibold rounded-lg shadow-sm">
-                    <Download className="size-3.5 text-primary" />
-                    <span>Download</span>
+                  <Button size="sm" variant="outline" className="h-7 gap-1 text-xs px-2.5 rounded-md">
+                    <Download className="size-3 text-muted-foreground" />
+                    <span>Get</span>
                   </Button>
                 </div>
 
-                <p className="mt-2.5 text-xs text-muted-foreground leading-relaxed">
+                <p className="mt-2 text-xs text-muted-foreground leading-relaxed">
                   {art.summary}
                 </p>
 
-                <div className="mt-3 flex items-center gap-2 rounded-lg bg-blue-500/10 px-2.5 py-1.5 text-xs text-blue-600 dark:text-blue-400 border border-blue-500/20 font-medium">
-                  <CheckCircle2 className="size-3.5 shrink-0" />
+                <div className="mt-2.5 flex items-center gap-1.5 text-[11px] text-muted-foreground">
+                  <Check className="size-3 text-emerald-500 shrink-0" />
                   <span>{art.validationMessage}</span>
                 </div>
               </Card>
@@ -166,75 +161,68 @@ export function ContextPanel() {
         </TabsContent>
 
         {/* Tab 2: Sources & SOP Citations */}
-        <TabsContent value="sources" className="flex-1 p-4 m-0 overflow-y-auto space-y-3.5">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-muted-foreground uppercase">
-              Official Safety Guidelines ({activeTask.citations.length})
-            </span>
-            <Badge variant="outline" className="text-xs text-primary border-primary/30 font-semibold">
-              Matched Rules
-            </Badge>
+        <TabsContent value="sources" className="flex-1 p-3.5 m-0 overflow-y-auto space-y-3">
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
+            <span>Matched Guidelines ({activeTask.citations.length})</span>
           </div>
 
           {activeTask.citations.length > 0 ? (
-            <div className="space-y-3">
+            <div className="space-y-2.5">
               {activeTask.citations.map((cit) => (
-                <Card key={cit.id} className="border-border bg-background p-4 rounded-xl shadow-sm">
-                  <div className="flex items-center justify-between border-b border-border/60 pb-2 mb-2">
-                    <Badge variant="secondary" className="text-xs text-primary font-bold">
+                <Card key={cit.id} className="border-border/80 bg-background/80 p-3.5 rounded-xl shadow-none">
+                  <div className="flex items-center justify-between border-b border-border/40 pb-1.5 mb-1.5">
+                    <span className="text-xs font-semibold text-foreground">
                       {cit.source} · {cit.section}
-                    </Badge>
-                    <span className="text-xs text-muted-foreground font-medium">Page {cit.page}</span>
+                    </span>
+                    <span className="text-[11px] text-muted-foreground">Page {cit.page}</span>
                   </div>
 
-                  <h5 className="text-xs font-bold text-foreground mb-1.5">
+                  <h5 className="text-xs font-medium text-foreground mb-1">
                     {cit.title}
                   </h5>
 
-                  <p className="text-xs text-muted-foreground leading-relaxed bg-muted/30 p-3 rounded-lg border border-border/40">
+                  <p className="text-xs text-muted-foreground leading-relaxed bg-muted/30 p-2 rounded-lg border border-border/30">
                     &ldquo;{cit.snippet}&rdquo;
                   </p>
 
-                  <div className="mt-2.5 text-xs font-semibold text-amber-600 dark:text-amber-400">
-                    Rule Requirement: {cit.toleranceRequired}
+                  <div className="mt-2 text-[11px] text-foreground font-medium">
+                    {cit.toleranceRequired}
                   </div>
                 </Card>
               ))}
             </div>
           ) : (
-            <div className="text-center py-10 text-xs text-muted-foreground font-medium">
-              No specific company guidelines were needed for this calculation task.
+            <div className="text-center py-10 text-xs text-muted-foreground">
+              No specific guidelines required for this task.
             </div>
           )}
         </TabsContent>
 
         {/* Tab 3: Interactive P&ID Graph Viewer */}
-        <TabsContent value="pid" className="flex-1 p-4 m-0 overflow-y-auto">
+        <TabsContent value="pid" className="flex-1 p-3.5 m-0 overflow-y-auto">
           <PIDGraphViewer graphData={activeTask.pidGraph} isFullScreen={isExpandedView} />
         </TabsContent>
 
         {/* Tab 4: Files & Scans */}
-        <TabsContent value="files" className="flex-1 p-4 m-0 overflow-y-auto space-y-3.5">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-muted-foreground uppercase">
-              Original Files Uploaded
-            </span>
+        <TabsContent value="files" className="flex-1 p-3.5 m-0 overflow-y-auto space-y-3">
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
+            <span>Uploaded Files</span>
           </div>
 
-          <Card className="border-border bg-background p-4 rounded-xl">
-            <div className="flex items-center gap-3">
-              <FileText className="size-6 text-primary" />
+          <Card className="border-border/80 bg-background/80 p-3.5 rounded-xl shadow-none">
+            <div className="flex items-center gap-2.5">
+              <FileText className="size-5 text-muted-foreground" />
               <div>
-                <h5 className="text-xs font-bold text-foreground">
+                <h5 className="text-xs font-semibold text-foreground">
                   MRPL_UT_Thickness_L2041_Scan.pdf
                 </h5>
-                <p className="text-xs text-muted-foreground mt-0.5">
-                  2.4 MB · High-Clarity Measurement Report
+                <p className="text-[11px] text-muted-foreground">
+                  2.4 MB · Ultrasonic Inspection Report
                 </p>
               </div>
             </div>
-            <div className="mt-3 rounded-lg border border-border bg-muted/40 p-2.5 text-xs text-muted-foreground leading-relaxed">
-              Scan Status: Successfully read by AI assistant. Measured pipe wall thickness: 3.8 mm at Elbow E-102.
+            <div className="mt-2.5 rounded-lg bg-muted/30 p-2 text-xs text-muted-foreground leading-relaxed">
+              Read 2 pages. Key measurement: 3.8 mm at Elbow E-102.
             </div>
           </Card>
         </TabsContent>

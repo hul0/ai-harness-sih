@@ -4,10 +4,9 @@ import React from "react"
 import {
   ShieldCheck,
   CheckCircle2,
+  Sparkles,
   Lock,
-  EyeOff,
 } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import {
   Tooltip,
@@ -19,57 +18,53 @@ import { useWorkbench } from "@/lib/workbench-context"
 import { branding } from "@/lib/config"
 
 export function SovereigntyMonitor() {
-  const { sovereignty, triggerSimulatedEgress } = useWorkbench()
+  const { sovereignty, triggerSimulatedEgress, activeTask } = useWorkbench()
 
   return (
-    <header className="sticky top-0 z-40 flex h-12 w-full items-center justify-between border-b border-border bg-card/95 px-4 md:px-6 backdrop-blur shadow-sm">
-      {/* Left: Clear Privacy Status in Blue Theme */}
+    <header className="sticky top-0 z-40 flex h-13 w-full items-center justify-between border-b border-border bg-card/80 px-4 md:px-6 backdrop-blur-md">
+      {/* Left: Clean Brand & Model Indicator */}
       <div className="flex items-center gap-3">
-        <div className="flex items-center gap-2">
-          <div className="flex size-7 items-center justify-center rounded-lg bg-primary/15 text-primary border border-primary/30">
-            <ShieldCheck className="size-4" />
+        <div className="flex items-center gap-2.5">
+          <div className="flex size-7 items-center justify-center rounded-lg bg-foreground text-background font-bold shadow-sm">
+            <Sparkles className="size-4" />
           </div>
-          <span className="text-sm font-bold tracking-tight text-foreground">
+          <span className="text-sm font-semibold tracking-tight text-foreground">
             {branding.logoText}
           </span>
         </div>
 
-        <div className="h-4 w-px bg-border" />
+        <div className="h-3.5 w-px bg-border" />
 
-        <div className="flex items-center gap-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 px-3 py-1 text-xs font-semibold text-blue-600 dark:text-blue-400">
-          <span className="relative flex size-2">
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-blue-400 opacity-75" />
-            <span className="relative inline-flex size-2 rounded-full bg-blue-500" />
-          </span>
-          <span>100% Private &amp; Offline</span>
+        {/* Model Badge */}
+        <div className="flex items-center gap-1.5 text-xs text-muted-foreground bg-muted/50 px-2.5 py-1 rounded-md border border-border/60">
+          <span className="size-1.5 rounded-full bg-emerald-500" />
+          <span className="font-medium text-foreground">{activeTask.routing.modelName.split("(")[0].trim()}</span>
+          <span className="text-[11px] text-muted-foreground hidden sm:inline">· Local Engine</span>
         </div>
-
-        <span className="hidden items-center gap-1.5 text-xs text-muted-foreground sm:inline-flex">
-          <EyeOff className="size-3.5 text-blue-500" />
-          <span>No internet required — your data never leaves this computer</span>
-        </span>
       </div>
 
-      {/* Right: Simple privacy confirmation badge & test button */}
+      {/* Right: Clean Privacy Status & Minimal Action */}
       <div className="flex items-center gap-3">
-        <div className="hidden items-center gap-1.5 rounded-lg border border-border bg-background/80 px-3 py-1 text-xs text-muted-foreground md:flex">
-          <CheckCircle2 className="size-3.5 text-blue-500" />
-          <span>Completed Tasks:</span>
-          <span className="font-semibold text-foreground">{sovereignty.localRequests}</span>
+        <div className="hidden items-center gap-2 text-xs text-muted-foreground sm:flex">
+          <span className="flex items-center gap-1.5">
+            <span className="size-1.5 rounded-full bg-emerald-500" />
+            <span className="font-medium text-foreground">Active</span>
+          </span>
+          <span className="text-border">|</span>
+          <span>0 egress calls</span>
         </div>
 
-        {/* Test Privacy Button */}
         <TooltipProvider delay={150}>
           <Tooltip>
             <TooltipTrigger
               onClick={triggerSimulatedEgress}
-              className="inline-flex items-center justify-center rounded-lg border border-primary/30 bg-primary/10 px-3 h-8 text-xs font-semibold text-primary hover:bg-primary/20 transition-colors cursor-pointer gap-1.5 shadow-sm"
+              className="inline-flex items-center gap-1.5 h-8 px-3 text-xs font-medium rounded-lg text-foreground hover:bg-muted border border-border transition-colors cursor-pointer"
             >
-              <Lock className="size-3.5" />
-              <span>Verify Privacy Shield</span>
+              <ShieldCheck className="size-3.5 text-emerald-500" />
+              <span>Test Shield</span>
             </TooltipTrigger>
             <TooltipContent side="bottom" className="text-xs max-w-xs p-2">
-              Tests and proves that outgoing internet connections are completely blocked by the built-in security shield.
+              Validates that outbound internet traffic is fully blocked in this environment.
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
