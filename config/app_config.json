@@ -1,6 +1,6 @@
 {
   "project": {
-    "name": "Saarthi",
+    "name": "Indigent",
     "codename": "ai-harness",
     "version": "1.0.0",
     "tagline": "Sovereign On-Premise Agentic AI Workbench",
@@ -10,9 +10,9 @@
     "organization": "MRPL (Mangalore Refinery and Petrochemicals Limited)"
   },
   "branding": {
-    "logoText": "Saarthi",
+    "logoText": "Indigent",
     "badgeText": "AIR-GAPPED SOVEREIGN",
-    "footerText": "Saarthi Sovereign Intelligence Runtime · 100% Local Inference"
+    "footerText": "Indigent Sovereign Intelligence Runtime · 100% Local Inference"
   },
   "sovereignty": {
     "statusAirGapped": "AIR-GAPPED",
