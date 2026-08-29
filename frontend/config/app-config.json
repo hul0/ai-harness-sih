@@ -1,6 +1,6 @@
 {
   "project": {
-    "name": "Saarthi",
+    "name": "Indigent",
     "codename": "ai-harness",
     "version": "1.0.0",
     "tagline": "Industrial AI Assistant",
@@ -10,9 +10,9 @@
     "organization": "MRPL"
   },
   "branding": {
-    "logoText": "Saarthi",
+    "logoText": "Indigent",
     "badgeText": "Local Engine",
-    "footerText": "Saarthi AI · Local on-premise execution"
+    "footerText": "Indigent AI · Local on-premise execution"
   },
   "navigation": {
     "items": [

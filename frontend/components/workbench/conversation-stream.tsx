@@ -114,7 +114,7 @@ export function ConversationStream() {
 
           <div className="mt-2 text-center">
             <span className="text-[11px] text-muted-foreground">
-              Saarthi AI can assist with inspections, calculations, and official documentation.
+              Indigent AI can assist with inspections, calculations, and official documentation.
             </span>
           </div>
         </div>
